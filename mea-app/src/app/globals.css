@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+main{
+  flex-grow: 1;
+}
+
+.text-shadow{
+  text-shadow:3px 3px 0px #ea580c;
+
+}
+.border-box {
+  border-radius: 10px;
+  animation: pulse 2s infinite;
+}
+
+.inner-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgb(234, 88, 12,.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgb(234, 88, 12,1);
+  }
+}
