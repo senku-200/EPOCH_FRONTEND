@@ -5,18 +5,11 @@ import { QRCodeSVG } from "qrcode.react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-interface Props {
-  upiHolderName?: string;
-  upiId?: string;
-  email?: string; // Add a prop for email
-}
+const upiHolderName: string = "";
+const upiId: string = "";
+const email: string = "";
 
-const Page: React.FC<Props> = ({
-  upiHolderName = "",
-  upiId = "",
-  email = "support@example.com", // Default email address
-}) => {
-  const router = useRouter();
+const Page: React.FC = () => {
   const [jsonData, setJsonData] = useState<any>(null);
 
   useEffect(() => {
@@ -36,15 +29,12 @@ const Page: React.FC<Props> = ({
   }, []);
 
   const getQRCodeValue = () => {
-    // Extract values from jsonData, or use default values
     const amount = jsonData?.total_amount || 0;
-    const name = upiHolderName || jsonData?.upiHolderName || "Default Name"; // Use prop or jsonData for UPI holder name
-    const id = upiId || jsonData?.upiId || "default@upi"; // Use prop or jsonData for UPI ID
+    const name = upiHolderName || jsonData?.upiHolderName || "Default Name";
+    const id = upiId || jsonData?.upiId || "default@upi";
 
-    // Build the UPI URL dynamically with only the available parameters
     let upiUrl = `upi://pay?`;
 
-    // Add dynamic parameters if they exist
     if (id) upiUrl += `pa=${encodeURIComponent(id)}`;
     if (name) upiUrl += `&pn=${encodeURIComponent(name)}`;
     if (amount > 0) upiUrl += `&am=${encodeURIComponent(amount)}`;
@@ -52,11 +42,6 @@ const Page: React.FC<Props> = ({
 
     return upiUrl;
   };
-
-  const handleHomeRedirect = () => {
-    router.push("/register/success");
-  };
-
   return (
     <div className="bg-black text-white min-h-screen flex flex-col justify-center items-center p-4">
       <div className="text-center mb-6">
@@ -88,7 +73,6 @@ const Page: React.FC<Props> = ({
       <div className="mt-8">
         <Link href={"/register/success"}>
           <button
-            // onClick={handleHomeRedirect}
             type="button"
             className="bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded capitalize"
           >
