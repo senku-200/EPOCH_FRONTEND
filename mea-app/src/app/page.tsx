@@ -1,6 +1,7 @@
 import ImageOverlayComponent from "@/Components/MainComponents/ImageOverlayComponent";
 import Sector2Component from "@/Components/MainComponents/Sector2Component";
 import React from "react";
+import "./globals.css";
 const page = () => {
   return (
     <main className="bg-black h-full mb-10">
