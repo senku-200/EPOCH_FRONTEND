@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Event, fetchEvents } from "@/api/EventApi";
@@ -373,14 +372,14 @@ const EventForm: React.FC = () => {
               {event.is_team &&
                 events.some(
                   (e, i) =>
-                    e.is_team && e.team_members?.length > 0 && i !== eventIndex
+                    e.is_team && (e.team_members?.length ?? 0) && i !== eventIndex
                 ) && (
                   <div className="mt-4">
                     <h4 className="text-lg font-semibold">Copy Team Members</h4>
                     {events.map(
                       (e, i) =>
                         e.is_team &&
-                        e.team_members?.length > 0 &&
+                        (e.team_members?.length ?? 0) &&
                         i !== eventIndex && (
                           <button
                             key={i}
