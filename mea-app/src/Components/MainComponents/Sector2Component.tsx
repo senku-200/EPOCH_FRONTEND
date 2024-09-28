@@ -1,19 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import TimerComponent from "../TimerComponent";
 
 const Sector2Component: React.FC = () => {
-  const targetDate = new Date("2024-10-22T00:00:00");
-
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
-
+  const targetDate = useMemo(() => new Date("2024-10-22T00:00:00"), []);
   useEffect(() => {
     const updateTimer = () => {
       const now = new Date();

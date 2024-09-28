@@ -15,7 +15,7 @@ const MainContactComponent: React.FC = () => {
             </p>
           </>
         }
-        className={"md:text-[9.2rem] 2xl:text-[10rem]"}
+        className={"md:text-[9.2rem] 2xl:text-[9rem]"}
       />
       <div className="flex w-full h-auto items-center justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-4">

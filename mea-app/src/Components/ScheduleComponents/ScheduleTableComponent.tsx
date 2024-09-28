@@ -1,15 +1,11 @@
 import { scheduleDetails } from "@/types/ScheduleDetails";
-import { s } from "framer-motion/client";
 import React, { ReactNode } from "react";
+import { Event } from "@/api/EventApi";
+interface props{
+  events:Event[];
+}
 
-const ScheduleTableComponent = () => {
-  function index(
-    value: { "s.no": number; event: string; day: number; timings: string },
-    index: number,
-    array: { "s.no": number; event: string; day: number; timings: string }[]
-  ): ReactNode {
-    throw new Error("Function not implemented.");
-  }
+const ScheduleTableComponent:React.FC<props> = ({events}) => {
 
   return (
     <div className="overflow-x-auto border-box rounded-md mt-10 md:mt-0 cursor-pointer">
@@ -23,12 +19,12 @@ const ScheduleTableComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {scheduleDetails.map(({ s_no, event, day, timings }, index) => (
+          {events.map((event, index) => (
             <tr className="hover:bg-orange-500" key={index}>
-              <td className="border px-4 py-2 text-center">{s_no}.</td>
-              <td className="border px-4 py-2">{event}</td>
-              <td className="border px-4 py-2 text-center">Day {day}</td>
-              <td className="border px-4 py-2 text-center">{timings}</td>
+              <td className="border px-4 py-2 text-center">{index+1}.</td>
+              <td className="border px-4 py-2">{event.name}</td>
+              <td className="border px-4 py-2 text-center">Day {event.day}</td>
+              <td className="border px-4 py-2 text-center">{event.timing}</td>
             </tr>
           ))}
         </tbody>
