@@ -20,9 +20,15 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         const response_incharges = await axios.get(API_URL_Incharge);
         const allIncharges: Incharge[] = response_incharges.data;
 
-        const filteredIncharges = allIncharges.filter(incharge =>
-          incharge.category.some((cat: { name: any; }) => cat.name === response_event.data.category)
-        );
+        const filteredIncharges = allIncharges.filter((incharge) => {
+          return (
+            Array.isArray(incharge.category) &&
+            incharge.category.some(
+              (cat: { name: string }) =>
+                cat.name === response_event.data.category
+            )
+          );
+        });
 
         setIncharges(filteredIncharges);
       } catch (error) {
@@ -45,9 +51,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <DetailedViewComponent
-
-        inchargeDetails={incharges} event={event}      />
+      <DetailedViewComponent inchargeDetails={incharges} event={event} />
     </div>
   );
 };
