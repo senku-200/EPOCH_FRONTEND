@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Event, fetchEvents } from "@/api/EventApi";
 import { Incharge, fetchIncharges } from "@/api/InchargeApi";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const API_ENDPOINT = "http://127.0.0.1:8000/register/";
 
@@ -15,6 +17,7 @@ const participantSchema = z.object({
   phone_number: z
     .string()
     .min(10, { message: "Phone number must be at least 10 digits" }),
+  gender: z.string().min(1, { message: "Gender is required" }),
 });
 
 const teamMemberSchema = z.object({
@@ -33,15 +36,18 @@ type Participant = {
   email: string;
   register_number: string;
   phone_number: string;
+  gender: string;
 };
 
 const MAX_TEAM_MEMBERS = 3;
 
 const EventForm: React.FC = () => {
+  const router = useRouter();
   const [predefinedEvents, setPredefinedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+  const [selectedGender, setGender] = useState<string | null>(null);
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -55,29 +61,18 @@ const EventForm: React.FC = () => {
     fetchEventData();
   }, []);
 
-  const [inchargeData, setInchargeData] = useState<Incharge[]>([]);
-  useEffect(() => {
-    const getInchargeData = async () => {
-      try {
-        const data = await fetchIncharges();
-        setInchargeData(data);
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    };
-
-    getInchargeData();
-  }, []);
-
   const [participant, setParticipant] = useState<Participant>({
     name: "",
     email: "",
     register_number: "",
     phone_number: "",
+    gender: "",
   });
 
-  const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleParticipantChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
     setParticipant({ ...participant, [name]: value });
   };
 
@@ -164,11 +159,16 @@ const EventForm: React.FC = () => {
     const jsonData = {
       participant: participant,
       events: events,
+      total_amount: calculateTotalPrice(),
     };
     // Validate participant data
     const participantValidation = participantSchema.safeParse(participant);
     if (!participantValidation.success) {
       setErrors(participantValidation.error.errors.map((err) => err.message));
+      return;
+    }
+    if(events.length < 1){
+      setErrors(["No event Has Been Selected"]);
       return;
     }
 
@@ -196,17 +196,45 @@ const EventForm: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-
-      console.log("Success:", response.data);
+      console.log("Success:", response.data, jsonData);
+      if (response.status === 201) {
+        router.push(
+          `/register/payment?data=${encodeURIComponent(
+            JSON.stringify(jsonData)
+          )}`
+        );
+      }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  const calculateTotalPrice = () => {
+    return events.reduce((total, event) => {
+      if (selectedGender == "female" && !event.is_team) {
+        return parseFloat(total.toString());
+      } else {
+        return parseFloat(total.toString()) + parseFloat(event.register_amount);
+      }
+    }, 0);
+  };
 
+  const getRegisterAmount= (event:Event)=>{
+    if(selectedGender == "female" && !event.is_team){
+      return 0;
+    }
+    else{
+      return event.register_amount;
+    }
+  }
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
+    handleParticipantChange(e);
+  };
   return (
     <form
       onSubmit={handleSubmit}
       className="p-6 bg-gray-900 text-white shadow-md space-y-8"
+      encType="multipart/form-data"
     >
       <h2 className="text-2xl font-semibold mb-4">Participant Information</h2>
       {errors.length > 0 && (
@@ -246,7 +274,19 @@ const EventForm: React.FC = () => {
           value={participant.phone_number}
           onChange={handleParticipantChange}
           className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
-        />
+        />{" "}
+        <select
+          value={selectedGender || ""}
+          onChange={handleGenderChange}
+          name="gender"
+          className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500 capitalize"
+        >
+          <option value="" disabled>
+            select a gender
+          </option>
+          <option value="male">male</option>
+          <option value="female">female</option>
+        </select>
       </div>
 
       <h2 className="text-2xl font-semibold mb-4">Events</h2>
@@ -329,17 +369,31 @@ const EventForm: React.FC = () => {
               >
                 Add Team Member
               </button>
-              {events.filter((e) => e.is_team).length > 1 && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleCopyTeamMembers(eventIndex - 1, eventIndex)
-                  }
-                  className="py-1 px-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-                >
-                  {`Copy Team Members from ${event.name}`}
-                </button>
-              )}
+
+              {event.is_team &&
+                events.some(
+                  (e, i) =>
+                    e.is_team && e.team_members?.length > 0 && i !== eventIndex
+                ) && (
+                  <div className="mt-4">
+                    <h4 className="text-lg font-semibold">Copy Team Members</h4>
+                    {events.map(
+                      (e, i) =>
+                        e.is_team &&
+                        e.team_members?.length > 0 &&
+                        i !== eventIndex && (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => handleCopyTeamMembers(i, eventIndex)}
+                            className="py-1 px-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 focus:outline-none focus:ring focus:ring-yellow-500 mb-2"
+                          >
+                            Copy from {e.name}
+                          </button>
+                        )
+                    )}
+                  </div>
+                )}
             </div>
           )}
         </div>
@@ -358,7 +412,7 @@ const EventForm: React.FC = () => {
             .filter((event) => !events.some((e) => e.id === event.id))
             .map((event) => (
               <option key={event.id} value={event.id}>
-                {event.name}
+                {event.name} - ₹{getRegisterAmount(event)}
               </option>
             ))}
         </select>
@@ -371,14 +425,19 @@ const EventForm: React.FC = () => {
         </button>
       </div>
 
-      <button
-        type="submit"
-        className="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-      >
-        Submit
-      </button>
+      <div className="border-t pt-4 mt-4">
+        <h3 className="text-xl font-semibold">
+          Total Price: ₹{calculateTotalPrice()}
+        </h3>
+        <button
+          type="submit"
+          className="mt-4 w-full p-2 bg-green-600 text-white rounded-md"
+        >
+          Checkout
+        </button>
+      </div>
     </form>
   );
 };
 
-export default EventForm; 
+export default EventForm;

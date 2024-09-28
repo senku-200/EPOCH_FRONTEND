@@ -1,8 +1,12 @@
-"use client";
-import EventForm from "@/Components/Form/EventForm";
-import React from "react";
+"use client"; 
 
-const page = () => {
+import EventForm from "@/app/components/EventForm"; 
+import React from "react";
+import { useRouter } from "next/navigation"; 
+
+const Page: React.FC = () => {
+  const router = useRouter();
+
   return (
     <div className="h-auto w-screen">
       <EventForm />
@@ -10,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -22,6 +22,7 @@ const page: React.FC = () => {
           instruction={
             "In this event, an already published paper can be chosen as a topic, or a specific topic can be presented in front of a committee specializing in streams such as thermal, design, and manufacturing. Marks will be allocated based on presentation skills, knowledge of the chosen topic,and more."
           }
+
           inchargeDetails={[
             {
               name: "Logendran",
