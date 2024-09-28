@@ -80,10 +80,7 @@ const Sector2Component: React.FC = () => {
           begin in
         </p>
 
-        <animated.div
-          style={fadeInTimer}
-          className="w-full relative md:absolute flex flex-col justify-center md:flex-row items-center gap-10 md:gap-40 left-1/2 -translate-x-1/2 md:top-1/2 md:-translate-y-1/2"
-        >
+        <animated.div className="w-full relative md:absolute flex flex-col justify-center md:flex-row items-center gap-10 md:gap-40 left-1/2 -translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
           <TimerComponent label="days" value={timeLeft.days} />
           <TimerComponent label="hours" value={timeLeft.hours} />
           <TimerComponent label="minutes" value={timeLeft.minutes} />

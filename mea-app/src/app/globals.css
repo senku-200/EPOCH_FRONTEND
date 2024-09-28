@@ -3,6 +3,11 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+body {
+  @apply font-sans;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
 main{
   flex-grow: 1;
 }
