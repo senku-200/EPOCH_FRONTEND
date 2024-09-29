@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Event, fetchEvents } from "@/api/EventApi";
-import { Incharge, fetchIncharges } from "@/api/InchargeApi";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
