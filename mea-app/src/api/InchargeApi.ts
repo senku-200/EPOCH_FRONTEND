@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api/incharges/';
+const API_URL = 'https://epoch-backend.vercel.app/api/incharges/';
 
 export interface Category {
   name: string;
