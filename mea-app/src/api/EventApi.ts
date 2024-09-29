@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const API_URL_EVENTS = "http://127.0.0.1:8000/api/events/";
-export const API_URL_CATEGORY = "http://127.0.0.1:8000/api/category/";
-export const API_URL_Incharge = "http://127.0.0.1:8000/api/incharge/";
+export const API_URL_EVENTS = "https://epoch-backend.vercel.app/api/events/";
+export const API_URL_CATEGORY = "https://epoch-backend.vercel.app/api/category/";
+export const API_URL_Incharge = "https://epoch-backend.vercel.app/api/incharge/";
 
 export interface Incharge {
   id: number;
