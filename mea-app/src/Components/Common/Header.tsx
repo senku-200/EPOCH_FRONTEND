@@ -39,7 +39,7 @@ const Header: React.FC = () => {
               className="object-cover"
             />
             {/* <FaGears className="text-white w-10 h-10" /> */}
-            <p className="text-white font-[Inter] text-xl uppercase font-extrabold">
+            <p className="text-white font-bebas text-xl uppercase font-extrabold">
               MEA
             </p>
           </div>
