@@ -23,7 +23,7 @@ const ScheduleTableComponent:React.FC<props> = ({events}) => {
             <tr className="hover:bg-orange-500" key={index}>
               <td className="border px-4 py-2 text-center">{index+1}.</td>
               <td className="border px-4 py-2">{event.name}</td>
-              <td className="border px-4 py-2 text-center">Day {event.day}</td>
+              <td className="border px-4 py-2 text-center">{event.day}</td>
               <td className="border px-4 py-2 text-center">{event.timing}</td>
             </tr>
           ))}
