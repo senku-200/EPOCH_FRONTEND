@@ -46,7 +46,6 @@ export interface Event {
 export const fetchEvents = async (): Promise<Event[]> => {
   try {
     const response = await axios.get<Event[]>(API_URL_EVENTS);
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Failed to fetch Events");
@@ -56,7 +55,6 @@ export const fetchEvents = async (): Promise<Event[]> => {
 export const fetchCategory = async (): Promise<Category[]> => {
   try {
     const response = await axios.get<Category[]>(API_URL_CATEGORY);
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     throw new Error(
@@ -67,7 +65,6 @@ export const fetchCategory = async (): Promise<Category[]> => {
 export const fetchIncharge = async (): Promise<Incharge[]> => {
   try {
     const response = await axios.get<Incharge[]>(API_URL_Incharge);
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     throw new Error(

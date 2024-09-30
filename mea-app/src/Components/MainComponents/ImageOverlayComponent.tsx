@@ -87,7 +87,7 @@ const ImageOverlayComponent = () => {
           <p className="text-shadow font-protest uppercase text-2xl md:text-4xl tracking-[0.5rem] font-extrabold">
             phantasm'25 <span className="uppercase">epoch</span>
           </p>
-          <Link href={"/explore"}>
+          <Link href={"/register"}>
             <button
               type="button"
               className="transition-all text-sm md:text-lg px-4 py-2 my-10 font-normal font-protest uppercase outline-none border rounded-md border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white "
