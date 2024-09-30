@@ -29,7 +29,7 @@ const teamMemberSchema = z.object({
   phone_number: z
     .string()
     .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(15, { message: "Phone number must be at most 10 digits" }),
+    .max(15, { message: "Phone number must be at most 15 digits" }),
 });
 
 type Participant = {
@@ -201,7 +201,7 @@ const EventForm: React.FC = () => {
     setErrors([]);
 
     try {
-      console.log(JSON.stringify(jsonData))
+      // console.log(JSON.stringify(jsonData))
       const response = await axios.post(API_ENDPOINT, jsonData, {
         headers: {
           "Content-Type": "application/json",
