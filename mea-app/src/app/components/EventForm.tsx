@@ -15,7 +15,8 @@ const participantSchema = z.object({
     .min(1, { message: "Register number is required" }),
   phone_number: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 digits" }),
+    .min(10, { message: "Phone number must be at least 10 digits" })
+    .max(15, { message: "Phone number must be at most 10 digits" }),
   gender: z.string().min(1, { message: "Gender is required" }),
 });
 
@@ -27,7 +28,8 @@ const teamMemberSchema = z.object({
     .min(1, { message: "Register number is required" }),
   phone_number: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 digits" }),
+    .min(10, { message: "Phone number must be at least 10 digits" })
+    .max(15, { message: "Phone number must be at most 10 digits" }),
 });
 
 type Participant = {
