@@ -29,7 +29,7 @@ const teamMemberSchema = z.object({
   phone_number: z
     .string()
     .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(15, { message: "Phone number must be at most 10 digits" }),
+    .max(15, { message: "Phone number must be at most 15 digits" }),
 });
 
 type Participant = {
