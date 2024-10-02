@@ -5,16 +5,15 @@ import { QRCodeSVG } from "qrcode.react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-// Define types for jsonData for type safety
 interface PaymentData {
   total_amount: number;
   upiHolderName?: string;
   upiId?: string;
 }
 
-const upiHolderName: string = "Your Holder Name"; // Set default UPI holder name
-const upiId: string = "your-upi@id"; // Set default UPI ID
-const email: string = "your-email@example.com"; // Set default email
+const upiHolderName: string = "Phantasm'25"; 
+const upiId: string = "gracelincoln16@oksbi";
+const email: string = "gracelincoln16@gmail.com"; 
 
 const Page: React.FC = () => {
   const [jsonData, setJsonData] = useState<PaymentData | null>(null);

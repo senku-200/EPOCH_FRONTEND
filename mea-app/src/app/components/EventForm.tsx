@@ -100,7 +100,9 @@ const EventForm: React.FC = () => {
 
   const handleAddTeamMember = (eventIndex: number) => {
     const updatedEvents = events.map((event, i) =>
-      i === eventIndex && (event.team_members?.length || 0) < MAX_TEAM_MEMBERS
+      i === eventIndex &&
+      (event.team_members?.length || 0) <
+        (event.max_team_size != null ? event.max_team_size - 1 : 3)
         ? {
             ...event,
             team_members: [
@@ -201,7 +203,6 @@ const EventForm: React.FC = () => {
     setErrors([]);
 
     try {
-      // console.log(JSON.stringify(jsonData))
       const response = await axios.post(API_ENDPOINT, jsonData, {
         headers: {
           "Content-Type": "application/json",
