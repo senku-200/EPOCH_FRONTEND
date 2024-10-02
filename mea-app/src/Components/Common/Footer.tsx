@@ -37,18 +37,24 @@ const Footer: React.FC = () => {
           <div className="flex items-center gap-5 pt-2">
             <a
               href="https://www.instagram.com/phantasm2k25/"
+              target="_blank"
+              rel="noopener"
               className="text-orange-600 text-xl hover:scale-125 transition-all"
             >
               <IoLogoInstagram />
             </a>
             <a
               href=""
+              target="_blank"
+              rel="noopener"
               className="text-orange-600 text-xl hover:scale-125 transition-all"
             >
               <IoLogoLinkedin />
             </a>
             <a
               href="https://youtube.com/@phantasm2k25?si=GKuglc7n0qa-b9gi"
+              target="_blank"
+              rel="noopener"
               className="text-orange-600 text-xl hover:scale-125 transition-all"
             >
               <IoLogoYoutube />
