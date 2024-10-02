@@ -15,20 +15,20 @@ const EventContentComponent: React.FC = () => {
         />
       </div>
       <div className="font-bebas text-xl tracking-widest md:text-2xl md:tracking-[0.5rem] text-white flex flex-col items-center gap-5">
-        <p className="">
+        <p className="text-center">
           online registration <span className="text-orange-600">-₹250</span>
         </p>
-        <p className="">
+        <p className="text-center">
           onspot registration <span className="text-orange-600">-₹300</span>
         </p>
-        <p className="">
+        <p className="text-center">
           Free <span className="text-orange-600">accomendation</span>&
           <span className="text-orange-600">food</span> will be provided
         </p>
-        <p className="">
+        <p className="text-center">
           for <span className="text-orange-600">3</span> days
         </p>
-        <p className="">
+        <p className="text-center">
           prize pool <span className="text-orange-600">₹100k</span>
         </p>
       </div>
