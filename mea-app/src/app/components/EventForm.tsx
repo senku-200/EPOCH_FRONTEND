@@ -163,7 +163,7 @@ const EventForm: React.FC = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    setIsSubmitting(true); // Show loading spinner during form submission
+    setIsSubmitting(true);
 
     const jsonData = {
       participant: participant,
@@ -174,13 +174,13 @@ const EventForm: React.FC = () => {
     const participantValidation = participantSchema.safeParse(participant);
     if (!participantValidation.success) {
       setErrors(participantValidation.error.errors.map((err) => err.message));
-      setIsSubmitting(false); // Hide spinner if validation fails
+      setIsSubmitting(false); 
       return;
     }
 
     if (events.length < 1) {
       setErrors(["No event Has Been Selected"]);
-      setIsSubmitting(false); // Hide spinner if validation fails
+      setIsSubmitting(false); 
       return;
     }
 
@@ -193,7 +193,7 @@ const EventForm: React.FC = () => {
               ...prev,
               ...memberValidation.error.errors.map((err) => err.message),
             ]);
-            setIsSubmitting(false); // Hide spinner if validation fails
+            setIsSubmitting(false); 
             return;
           }
         }
@@ -203,7 +203,6 @@ const EventForm: React.FC = () => {
     setErrors([]);
 
     try {
-      console.log(jsonData);
       const response = await axios.post(API_ENDPOINT, jsonData, {
         headers: {
           "Content-Type": "application/json",
@@ -224,7 +223,7 @@ const EventForm: React.FC = () => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setIsSubmitting(false); // Hide spinner after submission completes
+      // setIsSubmitting(false);
     }
   };
   const calculateTotalPrice = () => {
