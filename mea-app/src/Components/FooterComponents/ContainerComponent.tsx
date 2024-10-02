@@ -11,7 +11,7 @@ const ContainerComponent: React.FC<PropTypes> = ({ title, content }) => {
           <p className="text-[Inter] text-sm md:text-base font-extrabold underline underline-offset-4 text-white uppercase">{title}</p>
         </header>
         <main className="">
-            <div className="text-[#aaaaaa] break-keep py-2 text-xs leading-relaxed">
+            <div className="text-[#aaaaaa] break-keep py-2 text-xs leading-relaxed lowercase">
                 {content}
             </div>
         </main>

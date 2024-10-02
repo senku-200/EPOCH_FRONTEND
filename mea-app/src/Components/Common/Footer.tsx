@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     {
       title: "about us",
       content: (
-        <p className="font-bebas text-sm tracking-widest">
+        <p className="text-sm capitalize">
           Mechanical Engineering Association (MEA) is the major part of
           Department of Mechanical Engineering headed by Dr.P.Thirumal, Head of
           the Department.
@@ -21,23 +21,38 @@ const Footer: React.FC = () => {
     {
       title: "CONTACT US",
       content: (
-        <div className="">
-          <div className="leading-loose font-bebas tracking-widest">
-            <p className="flex items-center gap-1">
-              <FaLocationDot /> Mechanical Engineering Association, GCE, Bargur,
-              Krishnigiri
+        <div className="lowercase leading-loose">
+          <div className="">
+            <p className="flex items-center gap-2 capitalize">
+              <FaLocationDot /> Government College of Engineering, NH 46,
+              Chennai Bangalore Highway, Bargur, Krishnagiri - 635104 Tamil Nadu
             </p>
             <p className="flex items-center gap-1">
-              <MdLocalPostOffice /> info@meagceb.in
+              <MdLocalPostOffice /> gcebmech@gmail.com
             </p>
             <p className="flex items-center gap-1">
-              <MdOutlineSmartphone /> +91 123456789
+              <MdOutlineSmartphone /> +91 9363456732
             </p>
           </div>
           <div className="flex items-center gap-5 pt-2">
-            <a href="" className="text-orange-600 text-xl hover:scale-125 transition-all"><IoLogoInstagram /></a>
-            <a href="" className="text-orange-600 text-xl hover:scale-125 transition-all"><IoLogoLinkedin /></a>
-            <a href="" className="text-orange-600 text-xl hover:scale-125 transition-all"><IoLogoYoutube /></a>
+            <a
+              href="https://www.instagram.com/phantasm2k25/"
+              className="text-orange-600 text-xl hover:scale-125 transition-all"
+            >
+              <IoLogoInstagram />
+            </a>
+            <a
+              href=""
+              className="text-orange-600 text-xl hover:scale-125 transition-all"
+            >
+              <IoLogoLinkedin />
+            </a>
+            <a
+              href="https://youtube.com/@phantasm2k25?si=GKuglc7n0qa-b9gi"
+              className="text-orange-600 text-xl hover:scale-125 transition-all"
+            >
+              <IoLogoYoutube />
+            </a>
           </div>
         </div>
       ),
@@ -59,7 +74,9 @@ const Footer: React.FC = () => {
         ))}
       </div>
       <section className="w-screen bg-zinc-800 h-10 flex items-center justify-center">
-        <p className="text-[Inter] uppercase text-[10px] tracking-widest font-[600] text-zinc-300">DEVELOPED BY MEAGCEB | &copy; 2024</p>
+        <p className="text-[Inter] uppercase text-[10px] tracking-widest font-[600] text-zinc-300">
+          DEVELOPED BY MEAGCEB | &copy; 2024
+        </p>
       </section>
     </footer>
   );

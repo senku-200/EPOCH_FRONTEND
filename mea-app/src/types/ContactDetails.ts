@@ -1,18 +1,17 @@
 export const ContactDetails = [
   {
     name: "kishoor v",
-    committee: "software",
-    "phoneNo": 123456789,
+    committee: "website secretary",
+    phoneNo: "+91 6384846562",
+  },
+  {
+    name: "mukilan s",
+    committee: "general secretary",
+    phoneNo: "+91 9363456732",
   },
   {
     name: "paul r grace lincoln",
-    committee: "organize",
-    "phoneNo": 123456789,
-  },
-  {
-    name: "mukilan a",
-    committee: "oraganize",
-    "phoneNo": 123456789,
+    committee: "executive secretary",
+    phoneNo: "+91 8072195294",
   },
 ];
-
