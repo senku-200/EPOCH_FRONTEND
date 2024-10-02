@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "MEA GCEB",
-  description: "GCEB's Mechanical Engineering Association",
+  title: "EPOCH",
+  description: "phantasm'25 symposium EPOCH",
 };
 
 export default function RootLayout({
@@ -31,6 +31,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap"
           rel="stylesheet"
         />
+        <link rel="icon" href="/assests/phantasm_logo.png"/>
       </head>
       <body className={`min-h-screen w-screen ${poppins.className} bg-black`}>
         <MainLayout>{children}</MainLayout>
