@@ -1,8 +1,10 @@
 import axios from "axios";
 
 export const API_URL_EVENTS = "https://epoch-backend.vercel.app/api/events/";
-export const API_URL_CATEGORY = "https://epoch-backend.vercel.app/api/category/";
-export const API_URL_Incharge = "https://epoch-backend.vercel.app/api/incharge/";
+export const API_URL_CATEGORY =
+  "https://epoch-backend.vercel.app/api/category/";
+export const API_URL_Incharge =
+  "https://epoch-backend.vercel.app/api/incharge/";
 
 export interface Incharge {
   id: number;
@@ -21,12 +23,20 @@ export interface Participant {
   email: string;
   register_number: string;
   phone_number: string;
+  gender?: string;
+  year: string;
+  department: string;
+  college: string;
 }
 export type TeamMember = {
   name: string;
   email: string;
   register_number: string;
   phone_number: string;
+  gender?: string;
+  year: string;
+  department: string;
+  college: string;
 };
 export interface Event {
   id: number;
@@ -39,8 +49,8 @@ export interface Event {
   instructions: string;
   category: string;
   team_members?: TeamMember[];
-  day?:String;
-  timing?:String;
+  day?: String;
+  timing?: String;
 }
 
 export const fetchEvents = async (): Promise<Event[]> => {

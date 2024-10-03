@@ -6,30 +6,23 @@ import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 
 const API_ENDPOINT = "https://epoch-backend.vercel.app/register/";
+// const API_ENDPOINT = "http://127.0.0.1:8000/register/";
 
 const participantSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   register_number: z
     .string()
-    .min(1, { message: "Register number is required" }),
+    .min(1, { message: "Register number is required" })
+    .max(15, { message: "Register number must be at most 15 character's" }),
   phone_number: z
     .string()
     .min(10, { message: "Phone number must be at least 10 digits" })
     .max(15, { message: "Phone number must be at most 10 digits" }),
   gender: z.string().min(1, { message: "Gender is required" }),
-});
-
-const teamMemberSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  register_number: z
-    .string()
-    .min(1, { message: "Register number is required" }),
-  phone_number: z
-    .string()
-    .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(15, { message: "Phone number must be at most 15 digits" }),
+  year: z.string().min(1, { message: "Academic is required" }),
+  department: z.string().min(1, { message: "Department is required" }),
+  college: z.string().min(1, { message: "College is required" }),
 });
 
 type Participant = {
@@ -38,9 +31,12 @@ type Participant = {
   register_number: string;
   phone_number: string;
   gender: string;
+  year: string;
+  department: string;
+  college: string;
 };
 
-const MAX_TEAM_MEMBERS = 3;
+// const MAX_TEAM_MEMBERS = 3;
 
 const EventForm: React.FC = () => {
   const router = useRouter();
@@ -51,6 +47,7 @@ const EventForm: React.FC = () => {
   const [selectedGender, setGender] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [selectedYear, setYear] = useState<string>("");
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -72,6 +69,9 @@ const EventForm: React.FC = () => {
     register_number: "",
     phone_number: "",
     gender: "",
+    year: "",
+    department: "",
+    college: "",
   });
 
   const handleParticipantChange = (
@@ -107,7 +107,16 @@ const EventForm: React.FC = () => {
             ...event,
             team_members: [
               ...(event.team_members || []),
-              { name: "", email: "", register_number: "", phone_number: "" },
+              {
+                name: "",
+                email: "",
+                register_number: "",
+                phone_number: "",
+                gender: "",
+                year: "",
+                department: "",
+                college: "",
+              },
             ],
           }
         : event
@@ -118,9 +127,9 @@ const EventForm: React.FC = () => {
   const handleTeamMemberChange = (
     eventIndex: number,
     memberIndex: number,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
     const updatedEvents = events.map((event, i) =>
       i === eventIndex
         ? {
@@ -174,26 +183,26 @@ const EventForm: React.FC = () => {
     const participantValidation = participantSchema.safeParse(participant);
     if (!participantValidation.success) {
       setErrors(participantValidation.error.errors.map((err) => err.message));
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       return;
     }
 
     if (events.length < 1) {
       setErrors(["No event Has Been Selected"]);
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       return;
     }
 
     for (const event of events) {
       if (event.team_members) {
         for (const member of event.team_members) {
-          const memberValidation = teamMemberSchema.safeParse(member);
+          const memberValidation = participantSchema.safeParse(member);
           if (!memberValidation.success) {
             setErrors((prev) => [
               ...prev,
               ...memberValidation.error.errors.map((err) => err.message),
             ]);
-            setIsSubmitting(false); 
+            setIsSubmitting(false);
             return;
           }
         }
@@ -203,6 +212,7 @@ const EventForm: React.FC = () => {
     setErrors([]);
 
     try {
+      console.log(JSON.stringify(jsonData));
       const response = await axios.post(API_ENDPOINT, jsonData, {
         headers: {
           "Content-Type": "application/json",
@@ -246,6 +256,22 @@ const EventForm: React.FC = () => {
   const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGender(e.target.value);
     handleParticipantChange(e);
+  };
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setYear(e.target.value);
+    handleParticipantChange(e);
+  };
+  const handleGenderChangeTeam = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
+    handleParticipantChange(e);
+  };
+  const handleYearChangeTeam = (
+    eventIndex: number,
+    memberIndex: number,
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setYear(e.target.value);
+    handleTeamMemberChange(eventIndex, memberIndex, e);
   };
   return (
     <div>
@@ -306,8 +332,8 @@ const EventForm: React.FC = () => {
               className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
             />{" "}
             <select
-              value={selectedGender || ""}
-              onChange={handleGenderChange}
+              value={participant.gender || ""}
+              onChange={handleParticipantChange}
               name="gender"
               className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500 capitalize"
             >
@@ -316,7 +342,35 @@ const EventForm: React.FC = () => {
               </option>
               <option value="male">male</option>
               <option value="female">female</option>
+            </select>{" "}
+            <select
+              value={participant.year || ""}
+              onChange={handleParticipantChange}
+              name="year"
+              className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500 capitalize"
+            >
+              <option value="" disabled>
+                select the academic year
+              </option>
+              <option value="1 year">1 year</option>
+              <option value="2 year">2 year</option>
+              <option value="3 year">3 year</option>
+              <option value="4 year">4 year</option>
             </select>
+            <input
+              name="department"
+              placeholder="Department"
+              value={participant.department}
+              onChange={handleParticipantChange}
+              className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
+            />{" "}
+            <input
+              name="college"
+              placeholder="College"
+              value={participant.college}
+              onChange={handleParticipantChange}
+              className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
+            />
           </div>
 
           <h2 className="text-2xl font-semibold mb-4">Events</h2>
@@ -380,6 +434,54 @@ const EventForm: React.FC = () => {
                           handleTeamMemberChange(eventIndex, memberIndex, e)
                         }
                         className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500"
+                      />{" "}
+                      <select
+                        value={teamMember.gender || ""}
+                        onChange={(e) =>
+                          handleTeamMemberChange(eventIndex, memberIndex, e)
+                        }
+                        name="gender"
+                        className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500 capitalize"
+                      >
+                        <option value="" disabled>
+                          select a gender
+                        </option>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                      </select>{" "}
+                      <select
+                        value={teamMember.year || ""}
+                        onChange={(e) =>
+                          handleTeamMemberChange(eventIndex, memberIndex, e)
+                        }
+                        name="year"
+                        className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500 capitalize"
+                      >
+                        <option value="" disabled>
+                          select the academic year
+                        </option>
+                        <option value="1 year">1 year</option>
+                        <option value="2 year">2 year</option>
+                        <option value="3 year">3 year</option>
+                        <option value="4 year">4 year</option>
+                      </select>
+                      <input
+                        name="department"
+                        placeholder="Department"
+                        value={teamMember.department}
+                        onChange={(e) =>
+                          handleTeamMemberChange(eventIndex, memberIndex, e)
+                        }
+                        className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
+                      />{" "}
+                      <input
+                        name="college"
+                        placeholder="College"
+                        value={teamMember.college}
+                        onChange={(e) =>
+                          handleTeamMemberChange(eventIndex, memberIndex, e)
+                        }
+                        className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500"
                       />
                       <button
                         type="button"
