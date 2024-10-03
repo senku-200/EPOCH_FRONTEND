@@ -238,7 +238,7 @@ const EventForm: React.FC = () => {
   };
   const calculateTotalPrice = () => {
     return events.reduce((total, event) => {
-      if (selectedGender == "female" && !event.is_team) {
+      if (participant.gender == "female" && !event.is_team) {
         return parseFloat(total.toString());
       } else {
         return parseFloat(total.toString()) + parseFloat(event.register_amount);
@@ -247,31 +247,11 @@ const EventForm: React.FC = () => {
   };
 
   const getRegisterAmount = (event: Event) => {
-    if (selectedGender == "female" && !event.is_team) {
+    if (participant.gender == "female" && !event.is_team) {
       return 0;
     } else {
       return event.register_amount;
     }
-  };
-  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(e.target.value);
-    handleParticipantChange(e);
-  };
-  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setYear(e.target.value);
-    handleParticipantChange(e);
-  };
-  const handleGenderChangeTeam = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(e.target.value);
-    handleParticipantChange(e);
-  };
-  const handleYearChangeTeam = (
-    eventIndex: number,
-    memberIndex: number,
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setYear(e.target.value);
-    handleTeamMemberChange(eventIndex, memberIndex, e);
   };
   return (
     <div>
