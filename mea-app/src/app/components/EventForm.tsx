@@ -36,18 +36,15 @@ type Participant = {
   college: string;
 };
 
-// const MAX_TEAM_MEMBERS = 3;
-
 const EventForm: React.FC = () => {
   const router = useRouter();
   const [predefinedEvents, setPredefinedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
-  const [selectedGender, setGender] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [selectedYear, setYear] = useState<string>("");
+
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -236,6 +233,7 @@ const EventForm: React.FC = () => {
       // setIsSubmitting(false);
     }
   };
+
   const calculateTotalPrice = () => {
     return events.reduce((total, event) => {
       if (participant.gender == "female" && !event.is_team) {
@@ -253,6 +251,7 @@ const EventForm: React.FC = () => {
       return event.register_amount;
     }
   };
+
   return (
     <div>
       {isLoading ? (

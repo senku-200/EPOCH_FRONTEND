@@ -1,8 +1,9 @@
-"use client"; 
+"use client";
 
-import EventForm from "@/app/components/EventForm"; 
+// import EventForm from "@/app/components/EventForm";
 import React from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import EventForm from "../components/FormComponents/EventForm";
 
 const Page: React.FC = () => {
   const router = useRouter();
