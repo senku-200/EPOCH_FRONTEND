@@ -52,6 +52,9 @@ export interface Event {
   day?: String;
   timing?: String;
 }
+export interface Error {
+  error: string;
+}
 
 export const fetchEvents = async (): Promise<Event[]> => {
   try {
