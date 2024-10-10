@@ -13,7 +13,7 @@ interface PaymentData {
 
 const upiHolderName: string = "Phantasm'25"; 
 const upiId: string = "gracelincoln16@oksbi";
-const email: string = "gracelincoln16@gmail.com"; 
+const email: string = "phantasm2k25@gmail.com"; 
 
 const Page: React.FC = () => {
   const [jsonData, setJsonData] = useState<PaymentData | null>(null);

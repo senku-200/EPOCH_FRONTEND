@@ -27,10 +27,10 @@ const EventsComponent: React.FC<EventsProps> = ({
       {events.map((event, eventIndex) => (
         <div
           key={event.id}
-          className="mt-6 bg-gray-800 p-4 rounded-lg space-y-4"
+          className="mt-6 bg-transprent  border border-grey-400 p-4 rounded-lg space-y-4"
         >
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold mb-2">{event.name}</h3>
+            <h3 className="text-xl font-semibold mb-2 text-orange-600">{event.name}</h3>
             <button
               type="button"
               onClick={() => handleDeleteEvent(event.id)}
@@ -57,7 +57,7 @@ const EventsComponent: React.FC<EventsProps> = ({
               <button
                 type="button"
                 onClick={() => handleAddTeamMember(eventIndex)}
-                className="py-1 px-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-500"
+                className="py-1 px-2 bg-orange-600 text-white rounded hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-500"
               >
                 Add Team Member
               </button>

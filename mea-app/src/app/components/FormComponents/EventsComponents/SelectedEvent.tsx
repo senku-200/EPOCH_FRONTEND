@@ -22,7 +22,7 @@ const SelectedEvent: React.FC<Props> = ({
       <select
         value={selectedEvent || ""}
         onChange={(e) => setSelectedEvent(Number(e.target.value))}
-        className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:ring-blue-500"
+        className="w-full p-2 bg-black border border-gray-600 rounded focus:outline-none focus:ring focus:ring-orange-500 focus:border-0 py-3"
       >
         <option value="" disabled>
           Select an event
@@ -30,7 +30,7 @@ const SelectedEvent: React.FC<Props> = ({
         {predefinedEvents
           .filter((event) => !events.some((e) => e.id === event.id))
           .map((event) => (
-            <option key={event.id} value={event.id}>
+            <option key={event.id} value={event.id} className="">
               {event.name} - ₹{getRegisterAmount(event)}
             </option>
           ))}
@@ -38,7 +38,7 @@ const SelectedEvent: React.FC<Props> = ({
       <button
         type="button"
         onClick={handleAddEvent}
-        className="ml-4 py-1 px-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-500"
+        className="ml-4 py-1 px-2 bg-orange-600 text-white rounded hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-500"
       >
         Add Event
       </button>

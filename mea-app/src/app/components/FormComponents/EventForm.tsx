@@ -34,7 +34,7 @@ const EventForm: React.FC = () => {
     department: "",
     college: "",
   });
-  
+
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -147,13 +147,28 @@ const EventForm: React.FC = () => {
   };
 
   const calculateTotalPrice = () => {
-    return events.reduce((total, event) => {
-      if (participant.gender == "female" && !event.is_team) {
-        return parseFloat(total.toString());
-      } else {
-        return parseFloat(total.toString()) + parseFloat(event.register_amount);
-      }
+    const payableEvents = events.filter(
+      (event) => parseFloat(event.register_amount) > 0
+    );
+
+    let total = payableEvents.reduce((total, event) => {
+      return participant.gender === "female" && !event.is_team
+        ? total
+        : total + parseFloat(event.register_amount);
     }, 0);
+
+    const applicableEventCount =
+      participant.gender === "female"
+        ? payableEvents.filter((event) => event.is_team).length
+        : payableEvents.length;
+
+    const discount =
+      applicableEventCount >= 5 ? 300 : applicableEventCount >= 3 ? 150 : 0;
+
+    return Math.max(
+      total > 0 && applicableEventCount >= 3 ? total - discount : total,
+      0
+    );
   };
 
   const getRegisterAmount = (event: Event) => {
@@ -166,6 +181,10 @@ const EventForm: React.FC = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+
+    // Clear previous errors at the beginning
+    setErrors([]);
+
     setIsSubmitting(true);
 
     const jsonData = {
@@ -174,19 +193,24 @@ const EventForm: React.FC = () => {
       total_amount: calculateTotalPrice(),
     };
 
+    // Validate participant
     const participantValidation = participantSchema.safeParse(participant);
     if (!participantValidation.success) {
       setErrors(participantValidation.error.errors.map((err) => err.message));
       setIsSubmitting(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
+    // Check if any event has been selected
     if (events.length < 1) {
-      setErrors(["No event Has Been Selected"]);
+      setErrors(["No event has been selected"]);
       setIsSubmitting(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
+    // Validate team members for each event
     for (const event of events) {
       if (event.team_members) {
         for (const member of event.team_members) {
@@ -197,16 +221,19 @@ const EventForm: React.FC = () => {
               ...memberValidation.error.errors.map((err) => err.message),
             ]);
             setIsSubmitting(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
             return;
           }
         }
       }
     }
 
+    // If no errors, clear the errors array
     setErrors([]);
 
     try {
-      console.log(JSON.stringify(jsonData));
+      // console.log(JSON.stringify(jsonData));
+
       const response = await axios.post(API_ENDPOINT, jsonData, {
         headers: {
           "Content-Type": "application/json",
@@ -214,7 +241,7 @@ const EventForm: React.FC = () => {
       });
 
       if (response.status === 201) {
-        if (calculateTotalPrice() == 0) {
+        if (calculateTotalPrice() === 0) {
           return router.push(`/register/success`);
         } else {
           router.push(
@@ -235,11 +262,13 @@ const EventForm: React.FC = () => {
     <LoadinComponentForm isLoading={isLoading}>
       <form
         onSubmit={handleSubmit}
-        className="p-6 bg-gray-900 text-white shadow-md space-y-8"
+        className="p-6 bg-black text-white shadow-md space-y-8"
         encType="multipart/form-data"
       >
         {<LoadingComponent isSubmitting={isSubmitting} />}
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-orange-600 font-bebas tracking-widest">Participant Information</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-orange-600 font-bebas tracking-widest">
+          Participant Information
+        </h2>
 
         <ErrorComponent errors={errors} />
 
@@ -248,7 +277,9 @@ const EventForm: React.FC = () => {
           handleParticipantChange={handleParticipantChange}
         />
 
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-orange-600 font-bebas tracking-widest">Events</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-orange-600 font-bebas tracking-widest">
+          Events
+        </h2>
 
         <EventsComponent
           events={events}

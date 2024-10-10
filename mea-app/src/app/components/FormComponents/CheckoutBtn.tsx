@@ -4,7 +4,7 @@ const CheckoutBtn: React.FC = () => {
   return (
     <button
       type="submit"
-      className="mt-4 w-full p-2 bg-green-600 text-white rounded-md"
+      className="mt-4 w-full p-2 bg-orange-600 hover:bg-orange-700  text-white rounded-md"
     >
       Checkout
     </button>
